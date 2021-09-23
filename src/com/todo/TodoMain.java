@@ -12,10 +12,17 @@ public class TodoMain {
 	
 		Scanner sc = new Scanner(System.in);
 		TodoList l = new TodoList();
+		
+		TodoUtil.loadList(l,"todolist.txt");
+		
 		boolean isList = false;
 		boolean quit = false;
 		do {
-			Menu.displaymenu();
+			//Menu.displaymenu();
+			Menu.prompt();
+			System.out.println("command: ");
+			
+			
 			isList = false;
 			String choice = sc.next();
 			switch (choice) {
@@ -63,5 +70,8 @@ public class TodoMain {
 			
 			if(isList) l.listAll();
 		} while (!quit);
+		
+		TodoUtil.saveList(l, "todolist.txt");
+		
 	}
 }

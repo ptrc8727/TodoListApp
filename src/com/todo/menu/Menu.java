@@ -1,5 +1,8 @@
 package com.todo.menu;
+import java.util.*;
 public class Menu {
+	
+	static Scanner sc = new Scanner(System.in);
 
     public static void displaymenu()
     {
@@ -13,5 +16,20 @@ public class Menu {
         System.out.println("7. sort the list by date ( ls_date )");
         System.out.println("8. exit (Or press escape key to exit)");
         System.out.println("Enter your choice >");
+    }
+    
+    public static void prompt(){
+    	
+    	String ih;
+    	System.out.println();
+        System.out.println("to see manual type the word \'help\',else press any key");
+    	
+		ih = sc.nextLine();
+		if(ih.equals("help")) {
+			
+			displaymenu();
+			
+		}
+    	
     }
 }
