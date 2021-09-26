@@ -13,7 +13,7 @@ public class TodoMain {
 		Scanner sc = new Scanner(System.in);
 		TodoList l = new TodoList();
 		
-		TodoUtil.loadList(l,"todolist.txt");
+		TodoUtil.loadList(l,"todolist_0.txt");
 		
 		boolean isList = false;
 		boolean quit = false;
@@ -24,7 +24,9 @@ public class TodoMain {
 			
 			
 			isList = false;
-			String choice = sc.next();
+			String cho = sc.nextLine();
+			String[] chch = cho.split(" ");
+			String choice = chch[0];
 			switch (choice) {
 
 			case "add":
@@ -58,6 +60,10 @@ public class TodoMain {
 				l.sortByDate();
 				isList = true;
 				break;
+				
+			case "find":
+				TodoUtil.find(l, chch[1]);
+				break;
 
 			case "exit":
 				quit = true;
@@ -71,7 +77,7 @@ public class TodoMain {
 			if(isList) l.listAll();
 		} while (!quit);
 		
-		TodoUtil.saveList(l, "todolist.txt");
+		TodoUtil.saveList(l, "todolist_0.txt");
 		
 	}
 }

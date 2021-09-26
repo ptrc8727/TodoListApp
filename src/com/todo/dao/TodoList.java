@@ -25,6 +25,18 @@ public class TodoList {
 		list.remove(index);
 		list.add(updated);
 	}
+	
+	public int len() {
+		
+		return this.list.size();
+		
+	}
+	
+	public TodoItem get(int a) {
+		
+		return this.list.get(a);
+		
+	}
 
 	public ArrayList<TodoItem> getList() {
 		return new ArrayList<TodoItem>(list);
@@ -61,4 +73,12 @@ public class TodoList {
 		}
 		return false;
 	}
+	
+	public int indexOf(String str) {
+		
+		return list.indexOf(str);
+		
+	}
+	
+	
 }

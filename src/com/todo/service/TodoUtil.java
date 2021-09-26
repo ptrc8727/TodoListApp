@@ -9,11 +9,17 @@ public class TodoUtil {
 	
 	public static void createItem(TodoList list) {
 		
-		String title, desc;
+		String cate, title, desc, duedate;
 		Scanner sc = new Scanner(System.in);
+		
 		
 		System.out.println("\n"
 				+ "========== Create item Section\n"
+				+ "enter the category\n");
+		
+		cate = sc.nextLine();
+		
+		System.out.println("\n"
 				+ "enter the title\n");
 		
 		title = sc.nextLine();
@@ -25,25 +31,29 @@ public class TodoUtil {
 		System.out.println("enter the description");
 		desc = sc.nextLine();
 		
-		TodoItem t = new TodoItem(title, desc);
+		System.out.println("enter the duedate(yyyy-MM-dd HH:mm:ss)");
+		duedate = sc.nextLine();
+		
+		TodoItem t = new TodoItem(cate, title, desc, duedate);
 		list.addItem(t);
 	}
 
 	public static void deleteItem(TodoList l) {
 		
 		Scanner sc = new Scanner(System.in);
-		String title = sc.nextLine();
-		
+		String snum = sc.nextLine();
+		int a = Integer.parseInt(snum);
+		int b = l.len();
 		System.out.println("\n"
 				+ "========== Delete Item Section\n"
-				+ "enter the title of item to remove\n"
+				+ "enter the serial number of item to remove\n"
 				+ "\n");
 		
-		for (TodoItem item : l.getList()) {
-			if (title.equals(item.getTitle())) {
-				l.deleteItem(item);
-				break;
-			}
+		if (0<a&&a<=b) {
+			
+					TodoItem ii= l.get(a-1);
+					l.deleteItem(ii);
+
 		}
 	}
 
@@ -54,7 +64,10 @@ public class TodoUtil {
 		
 		System.out.println("\n"
 				+ "========== Edit Item Section\n"
-				+ "enter the title of the item you want to update\n"
+				+ "enter the category of the item you want to update\n"
+				+ "\n");
+		
+		System.out.println("enter the title of the item you want to update\n"
 				+ "\n");
 		String title = sc.nextLine().trim();
 		if (!l.isDuplicate(title)) {
@@ -69,12 +82,19 @@ public class TodoUtil {
 			return;
 		}
 		
+		System.out.println("enter the new category ");
+		String new_cate = sc.nextLine().trim();
+		
 		System.out.println("enter the new description ");
 		String new_description = sc.nextLine().trim();
+		
+		System.out.println("enter the new duedate(yyyy-MM-dd HH:mm:ss) ");
+		String new_duedate = sc.nextLine().trim();
+		
 		for (TodoItem item : l.getList()) {
 			if (item.getTitle().equals(title)) {
 				l.deleteItem(item);
-				TodoItem t = new TodoItem(new_title, new_description);
+				TodoItem t = new TodoItem(new_cate, new_title, new_description,new_duedate);
 				l.addItem(t);
 				System.out.println("item updated");
 			}
@@ -84,9 +104,47 @@ public class TodoUtil {
 
 	public static void listAll(TodoList l) {
 		System.out.println("List every items: ");
+		int a = l.len();
+		System.out.println("total ["+a+"] elements");
+		int i=1;
 		for (TodoItem item : l.getList()) {
-			System.out.println("Item Title: " + item.getTitle() + "  Item Description:  " + item.getDesc());
+			
+			System.out.println(i+" Category"+item.getCategory()+"Item Title: " + item.getTitle() + "  Item Description:  " + item.getDesc()+" Duedate:  "+item.getDuedate()+"Inserted date: "+item.getCurrent_date());
+			i = i+1;
 		}
+	}
+	
+	public static void find(TodoList l, String str) {
+		
+		ArrayList<TodoItem> lis = new ArrayList<TodoItem>();
+		for (TodoItem item : l.getList()) {
+			
+			if(item.toSaveString().indexOf(str)>-1) {
+				
+				lis.add(item);
+				
+			}
+			
+		}
+		
+		int num = lis.size();
+		if(num==0) {
+			
+			System.out.println("There are no such keyword.");
+			
+		}else {
+			
+			System.out.println("There are "+num+" number of elements.");
+			
+			for(TodoItem item : lis) {
+				
+				int i = l.indexOf(item)+1;
+				System.out.println(i+" Category"+item.getCategory()+"Item Title: " + item.getTitle() + "  Item Description:  " + item.getDesc()+" Duedate:  "+item.getDuedate()+"Inserted date: "+item.getCurrent_date());
+				
+			}
+			
+		}
+		
 	}
 	
 	public static void saveList(TodoList l,String filename) {
@@ -120,10 +178,12 @@ public class TodoUtil {
 					while ((str = br.readLine()) != null) {
 					
 						StringTokenizer st = new StringTokenizer(str,"##",false);
+						String ct = st.nextToken();
 						String t = st.nextToken();
 						String d = st.nextToken();
 						String c = st.nextToken();
-						TodoItem a = new TodoItem(t,d);
+						String dd = st.nextToken();
+						TodoItem a = new TodoItem(ct,t,d,dd);
 						a.setCurrent_date(c);
 						
 						l.addItem(a);
